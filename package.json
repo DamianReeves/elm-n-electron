@@ -1,0 +1,15 @@
+{
+  "name": "elm-n-electron",
+  "version": "0.1.0",
+  "description": "Using elm and electron ",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Damian Reeves",
+  "license": "MIT"
+}
