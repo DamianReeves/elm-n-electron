@@ -5,10 +5,14 @@
   "main": "main.js",
   "dependencies": {},
   "devDependencies": {
+    "chokidar": "^2.0.3",
     "eslint": "^4.19.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "elm": "elm make Main.elm --output elm.js || true",
+    "elm:watch": "chokidar '**/*.elm' -c 'npm run elm'",
+    "start": "electron main.js",
+    "watch": "npm run start & npm run elm:watch & wait"
   },
   "author": "Damian Reeves",
   "license": "MIT"

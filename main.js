@@ -1,42 +1,52 @@
 /* jshint esversion: 6 */
 /* eslint-env es6, node, browser */
+(function(){
+  'use strict';   
+  const electron = require('electron');
+  const chokidar = require('chokidar'); // add chokidar
 
-'use strict'
-const electron = require('electron')
+  const app = electron.app; // this is our app
+  const BrowserWindow = electron.BrowserWindow; // This is a Module that creates windows  
 
-const app = electron.app // this is our app
-const BrowserWindow = electron.BrowserWindow // This is a Module that creates windows  
+  let mainWindow; // saves a global reference to mainWindow so it doesn't get garbage collected
 
-let mainWindow // saves a global reference to mainWindow so it doesn't get garbage collected
+  app.on('ready', createWindow); // called when electron has initialized
 
-app.on('ready', createWindow) // called when electron has initialized
+  // tell chokidar to watch these files for changes
+  // reload the window if there is one
+  chokidar.watch(['ports.js', 'index.html', 'elm.js']).on('change', () => {
+    if (mainWindow) {
+      mainWindow.reload();
+    }
+  });
 
-// This will create our app window, no surprise there
-function createWindow () {
-  mainWindow = new BrowserWindow({
-    width: 1024, 
-    height: 768
-  })
+  // This will create our app window, no surprise there
+  function createWindow () {
+    mainWindow = new BrowserWindow({
+      width: 1024, 
+      height: 768
+    });
 
-  // display the index.html file
-  mainWindow.loadURL(`file://${ __dirname }/index.html`)
-  
-  // open dev tools by default so we can see any console errors
-  mainWindow.webContents.openDevTools()
+    // display the index.html file
+    mainWindow.loadURL(`file://${ __dirname }/index.html`);
+    
+    // open dev tools by default so we can see any console errors
+    mainWindow.webContents.openDevTools();
 
-  mainWindow.on('closed', function () {
-    mainWindow = null
-  })
-}
+    mainWindow.on('closed', function () {
+      mainWindow = null;
+    });
+  }
 
-/* Mac Specific things */
+  /* Mac Specific things */
 
-// when you close all the windows on a non-mac OS it quits the app
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') { app.quit() }
-})
+  // when you close all the windows on a non-mac OS it quits the app
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') { app.quit(); }
+  });
 
-// if there is no mainWindow it creates one (like when you click the dock icon)
-app.on('activate', () => {
-  if (mainWindow === null) { createWindow() }
-})
+  // if there is no mainWindow it creates one (like when you click the dock icon)
+  app.on('activate', () => {
+    if (mainWindow === null) { createWindow(); }
+  });
+})();

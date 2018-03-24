@@ -7804,7 +7804,8 @@ var _user$project$Main$view = function (model) {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text('New Html Program'),
+			_0: _elm_lang$html$Html$text(
+				A2(_elm_lang$core$Basics_ops['++'], model.greeting, ', World')),
 			_1: {ctor: '[]'}
 		});
 };
